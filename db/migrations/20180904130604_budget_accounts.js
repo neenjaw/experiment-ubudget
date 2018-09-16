@@ -8,7 +8,9 @@ exports.up = function(knex, Promise) {
 
             table.integer('budget_owner_user_id').notNullable().unsigned();
             table.foreign('budget_owner_user_id')
-                .references('users.user_id');
+                .references('users.user_id')
+                .onUpdate('CASCADE')
+                .onDelete('CASCADE');
 
             table.timestamps(true, true);
         }),
@@ -18,15 +20,21 @@ exports.up = function(knex, Promise) {
 
             table.integer('budget_id').notNullable().unsigned();
             table.foreign('budget_id')
-                .references('budgets.budget_id');
+                .references('budgets.budget_id')
+                .onUpdate('CASCADE')
+                .onDelete('CASCADE');
 
             table.integer('user_id').notNullable().unsigned();
             table.foreign('user_id')
-                .references('users.user_id');
+                .references('users.user_id')
+                .onUpdate('CASCADE')
+                .onDelete('CASCADE');
 
-            table.integer('user_added_by_user_id').notNullable().unsigned();
+            table.integer('user_added_by_user_id').unsigned();
             table.foreign('user_added_by_user_id')
-                .references('users.user_id');
+                .references('users.user_id')
+                .onUpdate('CASCADE')
+                .onDelete('SET NULL');
 
             table.timestamps(true, true);
         }),
@@ -38,7 +46,9 @@ exports.up = function(knex, Promise) {
 
             table.integer('account_budget_id').notNullable().unsigned();
             table.foreign('account_budget_id')
-                .references('budgets.budget_id');
+                .references('budgets.budget_id')
+                .onUpdate('CASCADE')
+                .onDelete('CASCADE');
     
             table.timestamps(true, true);
         })

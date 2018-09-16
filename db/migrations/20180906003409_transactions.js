@@ -6,11 +6,15 @@ exports.up = function(knex, Promise) {
         
         table.integer('transaction_account_id').unsigned();
         table.foreign('transaction_account_id', 'fk_transaction_acct')
-            .references('accounts.account_id');
+            .references('accounts.account_id')
+            .onUpdate('CASCADE')
+            .onDelete('CASCADE');
 
         table.integer('transaction_created_by_user_id').unsigned();
         table.foreign('transaction_created_by_user_id', 'fk_transaction_user')
-            .references('users.user_id');
+            .references('users.user_id')
+            .onUpdate('CASCADE')
+            .onDelete('SET NULL');
 
         table.timestamps(true, true);
     });

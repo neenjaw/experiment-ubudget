@@ -1,0 +1,14 @@
+DROP TABLE receipt_items;
+DROP TABLE receipts;
+DROP TABLE payees;
+DROP TABLE transfers;
+DROP TABLE transactions;
+DROP TABLE accounts;
+DROP TABLE categories;
+DROP TABLE master_categories;
+DROP TABLE budget_authorized_users;
+DROP TABLE budgets;
+DROP TABLE users;
+DROP TABLE user_authorization_states;
+DROP TABLE knex_migrations_lock;
+DROP TABLE knex_migrations;

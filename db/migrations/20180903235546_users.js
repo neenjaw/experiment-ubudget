@@ -14,7 +14,9 @@ exports.up = function(knex, Promise) {
             table.string('user_last_name').notNullable();
             table.integer('user_authorization_state_id').notNullable().unsigned();
             table.foreign('user_authorization_state_id')
-                .references('user_authorization_states.user_authorization_state_id');
+                .references('user_authorization_states.user_authorization_state_id')
+                .onUpdate('CASCADE')
+                .onDelete('RESTRICT');
     
             table.timestamps(true, true);
         })

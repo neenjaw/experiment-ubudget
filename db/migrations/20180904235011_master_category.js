@@ -8,7 +8,9 @@ exports.up = function(knex, Promise) {
 
         table.integer('budget_id').notNullable().unsigned();
         table.foreign('budget_id')
-            .references('budgets.budget_id');
+            .references('budgets.budget_id')
+            .onUpdate('CASCADE')
+            .onDelete('CASCADE');
 
         table.integer('master_category_order').unsigned();
 

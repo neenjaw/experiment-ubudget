@@ -4,7 +4,8 @@ exports.seed = function(knex, Promise) {
     // Deletes ALL existing entries
     return knexCleaner.clean(knex);
 
-    // or
+    // or write knex queries to delete entries from tables in order
+    // to avoid foreign key constraints
 
     /*
     return knex('categories').del()
