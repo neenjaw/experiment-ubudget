@@ -16,9 +16,10 @@ exports.up = function(knex, Promise) {
             table.integer('to_account_id').unsigned()       
                 .references('accounts.account_id')
                 .onUpdate('CASCADE')
-                .onDelete('SET NULL');      
-
-            table.decimal('amount', 12, 2).notNullable();
+                .onDelete('SET NULL');    
+                
+            table.decimal('transfer_amount', 12, 2)
+                .notNullable();  
 
             table.string('comment')
                 .defaultTo('');

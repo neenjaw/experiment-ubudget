@@ -11,7 +11,11 @@ exports.up = function(knex, Promise) {
             table.integer('payee_id').unsigned()    
                 .references('payees.payee_id')
                 .onUpdate('CASCADE')
-                .onDelete('RESTRICT');      
+                .onDelete('RESTRICT'); 
+                
+            table.decimal('receipt_amount', 12, 2)
+                .defaultTo(0)
+                .notNullable();
 
             table.string('comment')
                 .defaultTo('');

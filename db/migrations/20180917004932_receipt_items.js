@@ -15,7 +15,7 @@ exports.up = function(knex, Promise) {
                 .onUpdate('CASCADE')
                 .onDelete('RESTRICT');
 
-            table.decimal('amount', 12, 2)
+            table.decimal('line_amount', 12, 2)
                 .notNullable();
 
             table.string('comment')
@@ -27,5 +27,6 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex, Promise) {
-    return knex.schema.dropTable(tableName);
+    return knex.schema
+        .dropTable(tableName);
 };
