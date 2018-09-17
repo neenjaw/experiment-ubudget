@@ -1,4 +1,4 @@
-const tableName = 'category_budget_by_month';
+const tableName = 'monthly_category_budgets';
 
 exports.up = function(knex, Promise) {
     return knex.schema.createTable(tableName, (table) => {
