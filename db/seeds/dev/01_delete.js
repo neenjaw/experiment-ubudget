@@ -1,8 +1,12 @@
 var knexCleaner = require('knex-cleaner');
 
+var kcOptions = {
+    ignoreTables: ['knex_migrations', 'knex_migrations_lock']
+};
+
 exports.seed = function(knex, Promise) {
     // Deletes ALL existing entries
-    return knexCleaner.clean(knex);
+    return knexCleaner.clean(knex, kcOptions);
 
     // or write knex queries to delete entries from tables in order
     // to avoid foreign key constraints
