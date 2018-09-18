@@ -1,3 +1,5 @@
+const dates = ['2018-09-00', '2018-10-00'];
+const budget_amounts = [10, 20];
 
 exports.seed = function(knex, Promise) {
     // Deletes ALL existing entries
