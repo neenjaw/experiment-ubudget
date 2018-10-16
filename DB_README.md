@@ -54,7 +54,7 @@ This is the database schema create command, creating a collection with the utf8m
 
 ### Users
 
-Purpose: ex
+Purpose: a table representing user accounts.
 
 - **table name:** users
 - **relationships:** ex
