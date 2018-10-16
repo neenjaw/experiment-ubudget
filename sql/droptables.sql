@@ -20,3 +20,5 @@ DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS user_authorization_states;
 DROP TABLE IF EXISTS knex_migrations_lock;
 DROP TABLE IF EXISTS knex_migrations;
+
+DROP PROCEDURE IF EXISTS update_receipt_amount;

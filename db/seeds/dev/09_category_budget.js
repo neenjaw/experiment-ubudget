@@ -1,5 +1,15 @@
-const dates = ['2018-09-00', '2018-10-00'];
-const budget_amounts = [10, 20];
+const periods = [
+    {
+        from: '2018-09-01',
+        to: '2018-09-30',
+        amount: 10
+    },
+    {
+        from: '2018-10-01',
+        to: '2018-10-31',
+        amount: 20
+    }
+];
 
 exports.seed = function(knex, Promise) {
     // Deletes ALL existing entries
@@ -10,12 +20,13 @@ exports.seed = function(knex, Promise) {
                 .then(category_records => {
                     const dataForInsert = [];
 
-                    dates.forEach((date, idx) => {
+                    periods.forEach((period, idx) => {
                         category_records.forEach(record => {
                             dataForInsert.push({
-                                year_month: date,
+                                date_from: period.from,
+                                date_to: period.to,
                                 category_id: record.category_id,
-                                budget_amount: budget_amounts[idx]
+                                budget_amount: period.amount
                             });
                         });
                     });

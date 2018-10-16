@@ -1,4 +1,4 @@
-const triggerName = 'trigger_update_receipt_amount';
+const triggerName = 'i_trigger_update_receipt_amount';
 
 exports.up = function(knex, Promise) {
     return knex.raw(`CREATE OR REPLACE DEFINER=CURRENT_USER

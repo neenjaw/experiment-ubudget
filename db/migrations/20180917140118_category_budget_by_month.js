@@ -9,7 +9,8 @@ exports.up = function(knex, Promise) {
             .onUpdate('CASCADE')
             .onDelete('CASCADE');
 
-        table.date('year_month');
+        table.date('year_month')
+            .notNullable();
             
         table.decimal('budget_amount', 12, 2)
             .notNullable();
