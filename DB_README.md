@@ -57,7 +57,9 @@ This is the database schema create command, creating a collection with the utf8m
 Purpose: a table representing user accounts.
 
 - **table name:** users
-- **relationships:** ex
+- **relationships:**
+  - one-to-many budgets
+  - one-to-many transactions
 
 | column name | column type | properties |
 |-------------|-------------|------------|
@@ -67,97 +69,97 @@ Purpose: a table representing user accounts.
 
 Purpose: ex
 
-- **table name:** users
+- **table name:** budgets
 - **relationships:** ex
 
 | column name | column type | properties |
 |-------------|-------------|------------|
-| user_id | unsigned int | autoincrement, not null, primary key |
+| budget_id | unsigned int | autoincrement, not null, primary key |
 
 ### Master Categories
 
 Purpose: ex
 
-- **table name:** users
+- **table name:** master_categories
 - **relationships:** ex
 
 | column name | column type | properties |
 |-------------|-------------|------------|
-| user_id | unsigned int | autoincrement, not null, primary key |
+| master_category_id | unsigned int | autoincrement, not null, primary key |
 
 ### Categories
 
 Purpose: ex
 
-- **table name:** users
+- **table name:** categories
 - **relationships:** ex
 
 | column name | column type | properties |
 |-------------|-------------|------------|
-| user_id | unsigned int | autoincrement, not null, primary key |
+| category_id | unsigned int | autoincrement, not null, primary key |
 
 ### Category Budgets
 
 Purpose: ex
 
-- **table name:** users
+- **table name:** category_budgets
 - **relationships:** ex
 
 | column name | column type | properties |
 |-------------|-------------|------------|
-| user_id | unsigned int | autoincrement, not null, primary key |
+| category_budget_id | unsigned int | autoincrement, not null, primary key |
 
 ### Accounts
 
 Purpose: ex
 
-- **table name:** users
+- **table name:** accounts
 - **relationships:** ex
 
 | column name | column type | properties |
 |-------------|-------------|------------|
-| user_id | unsigned int | autoincrement, not null, primary key |
+| account_id | unsigned int | autoincrement, not null, primary key |
 
 ### Transactions
 
 Purpose: ex
 
-- **table name:** users
+- **table name:** transactions
 - **relationships:** ex
 
 | column name | column type | properties |
 |-------------|-------------|------------|
-| user_id | unsigned int | autoincrement, not null, primary key |
+| transaction_id | unsigned int | autoincrement, not null, primary key |
 
 ### Transfers
 
 Purpose: ex
 
-- **table name:** users
+- **table name:** transfers
 - **relationships:** ex
 
 | column name | column type | properties |
 |-------------|-------------|------------|
-| user_id | unsigned int | autoincrement, not null, primary key |
+| transfer_id | unsigned int | autoincrement, not null, primary key |
 
 ### Receipts
 
 Purpose: ex
 
-- **table name:** users
+- **table name:** receipts
 - **relationships:** ex
 
 | column name | column type | properties |
 |-------------|-------------|------------|
-| user_id | unsigned int | autoincrement, not null, primary key |
+| receipt_id | unsigned int | autoincrement, not null, primary key |
 
 ### Receipt Items
 
 Purpose: ex
 
-- **table name:** users
+- **table name:** receipt_items
 - **relationships:** ex
 
 | column name | column type | properties |
 |-------------|-------------|------------|
-| user_id | unsigned int | autoincrement, not null, primary key |
+| receipt_item_id | unsigned int | autoincrement, not null, primary key |
