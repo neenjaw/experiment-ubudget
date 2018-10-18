@@ -10,6 +10,7 @@ const VerifyToken = require('./VerifyToken');
 const express  = require('express');
 const router = express.Router();
 
+const UserAuthorizationState = require('../../models/user-authorization-state');
 const User = require('../../models/user');
 
 // ============================
@@ -63,7 +64,7 @@ router.post('/register', (req, res) => {
         user_password: hashedPassword,
         user_first_name: req.body.userFirstName,
         user_last_name: req.body.userLastName,
-        user_authorization_state_id: defaultUserAuthState
+        user_authorization_state_id: UserAuthorizationState.getDefaultAuthorizationState()
     };
 
     User.create(values)
