@@ -10,13 +10,13 @@ exports.seed = function(knex, Promise) {
                         transaction_id: 1, 
                         transaction_date: '2018-01-01',
                         transaction_account_id: 1,
-                        transaction_created_by_user_id: 2
+                        transaction_created_by_user: 'tim'
                     },
                     {
                         transaction_id: 2, 
                         transaction_date: '2018-01-02',
                         transaction_account_id: 3,
-                        transaction_created_by_user_id: 3
+                        transaction_created_by_user: 'dan'
                     }
                 ])
                 .then(function() {

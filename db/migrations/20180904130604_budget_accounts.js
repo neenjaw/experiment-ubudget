@@ -6,8 +6,8 @@ exports.up = function(knex, Promise) {
 
             table.string('budget_description');
 
-            table.string('budget_owner_user_name').notNullable();
-            table.foreign('budget_owner_user_name')
+            table.string('budget_owner_user').notNullable();
+            table.foreign('budget_owner_user')
                 .references('users.user_name')
                 .onUpdate('CASCADE')
                 .onDelete('CASCADE');

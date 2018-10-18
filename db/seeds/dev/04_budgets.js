@@ -2,25 +2,25 @@ let budgetData = [
     { 
         budget_id: 1,
         budget_description: 'A Budget for Testing',
-        budget_owner_user_id: 2,
+        budget_owner_user: 'tim',
     },
     { 
         budget_id: 2,
         budget_description: 'A Sample Budget',
-        budget_owner_user_id: 3,
+        budget_owner_user: 'dan',
     }
 ];
 
 let budgetAuthorizedUserData = [
     {
         budget_id: 1,
-        user_id: 3,
-        user_added_by_user_id: 2
+        user_name: 'dan',
+        user_added_by_user: 'tim'
     },
     {
         budget_id: 2,
-        user_id: 2,
-        user_added_by_user_id: 1
+        user_name: 'tim',
+        user_added_by_user: 'system'
     }
 ];
 
