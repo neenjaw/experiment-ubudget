@@ -10,9 +10,9 @@ exports.up = function(knex, Promise) {
             .onUpdate('CASCADE')
             .onDelete('CASCADE');
 
-        table.integer('transaction_created_by_user_id').unsigned();
-        table.foreign('transaction_created_by_user_id', 'fk_transaction_user')
-            .references('users.user_id')
+        table.string('transaction_created_by_user');
+        table.foreign('transaction_created_by_user', 'fk_transaction_user')
+            .references('users.user_name')
             .onUpdate('CASCADE')
             .onDelete('SET NULL');
 

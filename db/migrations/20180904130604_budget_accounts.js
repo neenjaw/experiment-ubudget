@@ -6,9 +6,9 @@ exports.up = function(knex, Promise) {
 
             table.string('budget_description');
 
-            table.integer('budget_owner_user_id').notNullable().unsigned();
-            table.foreign('budget_owner_user_id')
-                .references('users.user_id')
+            table.string('budget_owner_user_name').notNullable();
+            table.foreign('budget_owner_user_name')
+                .references('users.user_name')
                 .onUpdate('CASCADE')
                 .onDelete('CASCADE');
 
@@ -16,7 +16,7 @@ exports.up = function(knex, Promise) {
         }),
     
         knex.schema.createTable('budget_authorized_users', function(table) {
-            table.primary(['budget_id', 'user_id']);
+            table.primary(['budget_id', 'user_name']);
 
             table.integer('budget_id').notNullable().unsigned();
             table.foreign('budget_id')
@@ -24,15 +24,15 @@ exports.up = function(knex, Promise) {
                 .onUpdate('CASCADE')
                 .onDelete('CASCADE');
 
-            table.integer('user_id').notNullable().unsigned();
-            table.foreign('user_id')
-                .references('users.user_id')
+            table.string('user_name').notNullable();
+            table.foreign('user_name')
+                .references('users.user_name')
                 .onUpdate('CASCADE')
                 .onDelete('CASCADE');
 
-            table.integer('user_added_by_user_id').unsigned();
-            table.foreign('user_added_by_user_id')
-                .references('users.user_id')
+            table.string('user_added_by_user');
+            table.foreign('user_added_by_user')
+                .references('users.user_name')
                 .onUpdate('CASCADE')
                 .onDelete('SET NULL');
 

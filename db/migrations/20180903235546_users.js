@@ -8,8 +8,7 @@ exports.up = function(knex, Promise) {
         }),
     
         knex.schema.createTable('users', function(table) {
-            table.increments('user_id').primary();
-            table.string('user_name').notNullable();
+            table.string('user_name').notNullable().primary();
             table.string('user_first_name').notNullable();
             table.string('user_last_name').notNullable();
             table.integer('user_authorization_state_id').notNullable().unsigned();
