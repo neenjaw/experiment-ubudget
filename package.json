@@ -15,9 +15,12 @@
     "lodash": "^4.17.11",
     "mysql": "^2.16.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "./node_modules/.bin/mocha --exit",
     "dev": "NODE_ENV=development node server/app.js"
   },
   "repository": {

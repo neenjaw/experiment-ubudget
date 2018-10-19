@@ -15,19 +15,19 @@ module.exports = {
         },
         useNullAsDefault: true
     },
-    staging: {
+    test: {
         client: 'mysql',
         connection: {
             host : '127.0.0.1',
             user : 'ubuser',
             password : 'ubuser',
-            database : 'ubudget'
+            database : 'ubudget_test'
         },
         migrations: {
             directory: './db/migrations'
         },
         seeds: {
-            directory: './db/seeds/staging'
+            directory: './db/seeds/dev'
         },
         useNullAsDefault: true
     }
