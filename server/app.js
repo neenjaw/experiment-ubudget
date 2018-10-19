@@ -19,8 +19,8 @@ const expressSanitizer = require('express-sanitizer');
 // Bookshelf Requires
 // ==========================
 
-const bookshelf = require('./bookshelf');
-const User = require('./models/user');
+// const bookshelf = require('./bookshelf');
+// const User = require('./models/user');
 
 // ============================
 // Express Setup 

@@ -11,10 +11,9 @@ const express  = require('express');
 const router = express.Router();
 
 // ============================
-// Bookshelf Model Requires
+// ObjectionJS Model Requires
 // ============================
 
-const User = require('../../models/user');
 
 // ============================
 // Index / Auth Routes

@@ -17,7 +17,7 @@ DROP TABLE IF EXISTS master_categories;
 DROP TABLE IF EXISTS budget_authorized_users;
 DROP TABLE IF EXISTS budgets;
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS user_authorization_states;
+DROP TABLE IF EXISTS user_authorization_roles;
 DROP TABLE IF EXISTS knex_migrations_lock;
 DROP TABLE IF EXISTS knex_migrations;
 
