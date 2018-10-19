@@ -37,22 +37,6 @@ describe('UserAuthState Route', function() {
 
         // For bookshelf
       
-        // it('should save a model to the database', function (done) {
-        //     const data = {
-        //         role_name: 'user',
-        //     };
-
-        //     UserAuthRole.forge(data)
-        //         .save()
-        //         .then(function(){
-        //             return UserAuthRole.where({role_name: 'user'}).fetch();
-        //         })
-        //         .then(function(userAuthRole){
-        //             expect(userAuthRole.get('role_name')).to.equal('user');
-        //             done();
-        //         });
-        // });
-
         // it('should not have admin role before it is created', function (done) {
         //     UserAuthRole.where({role_name: 'admin'}).fetch()
         //         .then(result => {
