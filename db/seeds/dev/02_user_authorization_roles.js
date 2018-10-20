@@ -4,7 +4,7 @@ exports.seed = function(knex, Promise) {
         .then(function () {
             // Inserts seed entries
             return knex('user_authorization_roles').insert([
-                {role_name: 'root'},
+                {role_name: 'system'},
                 {role_name: 'admin'},
                 {role_name: 'user'},
             ]);

@@ -12,7 +12,7 @@ exports.seed = function(knex, Promise) {
                     user_password: bcrypt.hashSync('metsys', 8),
                     user_first_name: 'system',
                     user_last_name: 'system',
-                    user_authorization_state_id: 1
+                    user_authorization_role: 'system'
                 },
                 {
                     user_name: 'tim',
@@ -20,7 +20,7 @@ exports.seed = function(knex, Promise) {
                     user_password: bcrypt.hashSync('password', 8),
                     user_first_name: 'Tim',
                     user_last_name: 'Austin',
-                    user_authorization_state_id: 2
+                    user_authorization_role: 'admin'
                 },
                 {
                     user_name: 'dan',
@@ -28,7 +28,7 @@ exports.seed = function(knex, Promise) {
                     user_password: bcrypt.hashSync('nad', 8),
                     user_first_name: 'Test',
                     user_last_name: 'User',
-                    user_authorization_state_id: 3
+                    user_authorization_role: 'user'
                 },
             ]);
         });
