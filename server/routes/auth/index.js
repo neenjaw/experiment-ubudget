@@ -17,7 +17,7 @@ const { UserAuthorizationRole, User } = require('../../models/schema');
 // ============================
 
 router.get('/me', VerifyToken, function(req, res, next) {
-    User.query().first().where({ user_name: req.userName })
+    User.query().first().where({ user_name: req.userId })
         .then(user => {
             if (!user) return res.status(404).send({
                 error: true,
@@ -25,7 +25,12 @@ router.get('/me', VerifyToken, function(req, res, next) {
             });
 
             res.status(200).send({
-                data: [ user ],
+                data: [ {
+                    userId: user.user_name,
+                    userFullName: user.user_first_name + ' ' + user.user_last_name,
+                    userEmail: user.user_email,
+                    userRole: user.user_authorization_role,
+                } ],
                 message: 'Success.'
             });
         })
@@ -49,12 +54,13 @@ router.post('/register', (req, res) => {
     User.query()
         .insert(newUserValues)
         .then(newUser => {
-            const token = newUser.getToken();
-
-            res.status(200).send({ authenticated: true, token });
+            res.status(200).send({ authenticated: true, token: newUser.getToken() });
         })
         .catch(err => {
-            if (err) return res.status(500).send('There was a problem registering the user.');
+            if (err) return res.status(500).send({
+                error: true,
+                message: 'There was a problem registering the user.'
+            });
         });
 });
 

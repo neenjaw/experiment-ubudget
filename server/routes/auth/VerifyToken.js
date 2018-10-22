@@ -5,7 +5,7 @@ function verifyToken(req, res, next) {
 
     if(!token) {
         return res.status(403).send({
-            auth: false,
+            authenticated: false,
             message: 'No token provided.'
         });
     }
@@ -13,14 +13,15 @@ function verifyToken(req, res, next) {
     jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
         if (err) {
             return res.status(500).send({
-                auth: false,
+                authenticated: false,
                 message: 'Failed to authticate token.'
             });
         }
 
         //if token is authenticated, save the user's id for use later
-        req.authorized = true;
+        req.authenticated = true;
         req.userId = decoded.id;
+        req.userRole = decoded.authorizedRole;
         next();
     });
 }

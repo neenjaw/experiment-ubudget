@@ -109,7 +109,7 @@ class User extends Password(BaseModel) {
                     minLength: 4, 
                     maxLength: 30,
                 },
-                user_firstN_nme: {
+                user_first_nnme: {
                     type: 'string', 
                     minLength: 4, 
                     maxLength: 30,
@@ -134,7 +134,7 @@ class User extends Password(BaseModel) {
         };
 
         const options = {
-            expiresIn: 60 * 60 //expires in 1 hr
+            expiresIn: 60 * 60 * 24 * 7 //expires in 1 week
         };
 
         return jwt.sign(payload, process.env.JWT_SECRET, options);

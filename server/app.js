@@ -43,7 +43,7 @@ const authRoutes      = require('./routes/auth/index');
 // Routes
 // ============================
 
-app.use(authRoutes);
+app.use('/api/auth', authRoutes);
 // app.use('/users', userRoutes);
 // app.use('/campgrounds', campgroundRoutes);
 // app.use('/campgrounds/:id/comments', commentRoutes);
