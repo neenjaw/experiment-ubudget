@@ -34,7 +34,7 @@ app.use(expressSanitizer());
 // Route Includes
 // ============================
 
-const authRoutes      = require('./routes/auth/index');
+const authRoutes      = require('./routes/api/auth/index');
 // const userRoutes       = require('./routes/api/user');
 // const campgroundRoutes = require('./routes/api/campground');
 // const commentRoutes    = require('./routes/api/comment');
