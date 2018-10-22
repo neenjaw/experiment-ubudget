@@ -1,8 +1,10 @@
 /* eslint-env node, mocha */
 
 var bcrypt = require('bcryptjs');
+var jwt = require('jsonwebtoken');
 
 process.env.NODE_ENV = 'test';
+process.env.JWT_SECRET = 'test_secret';
 
 var expect = require('chai').expect;  
 var knex = require('knex')(require('../knexfile')[process.env.NODE_ENV]);
@@ -97,10 +99,61 @@ describe('User Route', function() {
             
             User.query().first().where({ user_email: 'jack@cia.gov'})
                 .then(user => {
-                    user.verifyPassword(password)
+                    return user.verifyPassword(password)
                         .then(result => {
                             expect(result).to.equal(true);
                             done();
+                        });
+                });
+        });
+
+        it('should return a null token when the password supplied to login() is wrong', function(done) {
+            const email = 'jack@cia.gov';
+            const password = 'wrong_password';
+
+            User.query().first().where({ user_email: email })
+                .then(user => {
+                    return user.login(password)
+                        .then(result => {
+                            expect(result.token).to.equal(null);
+                            done();
+                        });
+                });
+        });
+
+        it('should return a valid token when the password supplied to login() is correct', function(done) {
+            const email = 'jack@cia.gov';
+            const password = 'password';
+
+            User.query().first().where({ user_email: email })
+                .then(user => {
+                    return user.login(password)
+                        .then(result => {
+                            expect(result.token).to.not.equal(null);
+                            done();
+                        });
+                });
+        });
+
+        it('should return a token with the userName, authorized flag, authorizedRole as the payload', function(done) {
+            const email = 'jack@cia.gov';
+            const password = 'password';
+            
+            User.query().first().where({ user_email: email })
+                .then(user => {
+                    return user.login(password)
+                        .then(result => {
+                            const token = result.token;
+
+                            jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
+                                expect(err).to.not.be.ok; // jshint ignore:line
+
+                                expect(decoded.id).to.equal('jackryan');
+                                expect(decoded.authorized).to.equal(true);
+                                expect(decoded.authorizedRole).to.equal('user');
+                        
+                                done();
+                            });
                         });
                 });
         });

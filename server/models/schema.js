@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const Knex = require('knex');
 const connection = require('../../knexfile')[process.env.NODE_ENV];
@@ -125,6 +126,27 @@ class User extends Password(BaseModel) {
             }
         };
     }
+
+    login(password) {
+        return this.verifyPassword(password)
+            .then(passwordIsValid => {
+                if (!passwordIsValid) return { token: null };
+
+                const token = jwt.sign(
+                    { 
+                        id: this.user_name, 
+                        authorized: true, 
+                        authorizedRole: this.user_authorization_role 
+                    }, 
+                    process.env.JWT_SECRET, 
+                    {
+                        expiresIn: 60 * 60 //expires in 1 hr
+                    });
+        
+                return { token };
+            })
+            .catch(err => { return { token: null, error: true, message: err}; });
+    }
 }
 
-module.exports = { UserAuthorizationRole, User };
+module.exports = { BaseModel, UserAuthorizationRole, User };
