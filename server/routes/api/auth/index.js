@@ -2,15 +2,12 @@
 // Node Requires
 // ============================
 
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-
 const VerifyToken = require('./VerifyToken');
 
 const express  = require('express');
 const router = express.Router();
 
-const { UserAuthorizationRole, User } = require('../../../models/schema');
+const { User } = require('../../../models/schema');
 
 // ============================
 // Auth Routes

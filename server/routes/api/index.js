@@ -14,7 +14,7 @@ const router = express.Router();
 // ObjectionJS Model Requires
 // ============================
 
-const { UserAuthorizationRole , User }  = require('../../models/schema');
+const { UserAuthorizationRole, User }  = require('../../models/schema');
 
 // ============================
 // Index / Auth Routes
@@ -32,16 +32,12 @@ router.get('/', (req, res) => {
 function isValidInput(type, input) {
     const validationTypes = {
         username: {
-            // disable eslint for this line since the string represents an uncompiled regex
-            // eslint-disable-next-line no-useless-escape
             pattern: /[a-zA-Z]{1}[a-zA-Z0-9_-]{4,20}/
         },
         password: {
             pattern: /[a-zA-Z0-9]{5,20}/
         },
         displayName: {
-            // disable eslint for this line since the string represents an uncompiled regex
-            // eslint-disable-next-line no-useless-escape
             pattern: /[a-zA-Z0-9_-]{3,20}/
         }
     };

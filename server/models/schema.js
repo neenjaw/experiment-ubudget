@@ -10,7 +10,7 @@ const passwordOptions = {
 };
 
 const Password = require('objection-password')(passwordOptions);
-const { Model, snakeCaseMappers } = require('objection');
+const { Model } = require('objection');
 
 Model.knex(knexConnection);
 
@@ -138,6 +138,16 @@ class User extends Password(BaseModel) {
         };
 
         return jwt.sign(payload, process.env.JWT_SECRET, options);
+    }
+}
+
+class Budget extends BaseModel {
+    static get tableName () {
+        return 'budgets';
+    }
+
+    static get idColumn() {
+        return 'budget_id';
     }
 }
 
