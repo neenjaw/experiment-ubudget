@@ -15,13 +15,6 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express');
 const expressSanitizer = require('express-sanitizer');
 
-// ==========================
-// Bookshelf Requires
-// ==========================
-
-// const bookshelf = require('./bookshelf');
-// const User = require('./models/user');
-
 // ============================
 // Express Setup 
 // ============================
@@ -36,15 +29,6 @@ app.use(express.urlencoded({ extended: false }));
 
 // Sanitize the incoming body
 app.use(expressSanitizer());
-
-// new User()
-//     .fetchAll()
-//     .then(user => {
-//         console.log(user.toJSON());
-//     })
-//     .catch(err => {
-//         console.log(err);
-//     });
 
 // ============================
 // Route Includes

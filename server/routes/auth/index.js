@@ -17,121 +17,68 @@ const { UserAuthorizationRole, User } = require('../../models/schema');
 // ============================
 
 router.get('/me', VerifyToken, function(req, res, next) {
-    // BOOKSHELF
-    // User.where('user_id', req.userId)
-    //     .fetch()
-    //     .then(function(user) {
-    //         if (!user) return res.status(404).send({
-    //             error: true,
-    //             message: 'No user found.'
-    //         });
-    
-    //         res.status(200).send(user);
-    //     })
-    //     .catch(function(err) {
-    //         return res.status(500).send({
-    //             error: true,
-    //             message: 'There was a problem finding the user.'
-    //         });
-    //     });
+    User.query().first().where({ user_name: req.userName })
+        .then(user => {
+            if (!user) return res.status(404).send({
+                error: true,
+                message: 'No user found.'
+            });
 
-    // MONGOOSE
-    // User.findById(req.userId, { password: 0 }, function (err, user) {
-    //     if (err) return res.status(500).send({
-    //         error: true,
-    //         message: 'There was a problem finding the user.'
-    //     });
-    // 
-    //     if (!user) return res.status(404).send({
-    //         error: true,
-    //         message: 'No user found.'
-    //     });
-    // 
-    //     res.status(200).send(user);
-    // });
+            res.status(200).send({
+                data: [ user ],
+                message: 'Success.'
+            });
+        })
+        .catch(error => {
+            return res.status(500).send({
+                error: true,
+                message: 'There was a problem finding the user.'
+            });
+        });
 });
 
 router.post('/register', (req, res) => {
-    const hashedPassword = bcrypt.hashSync(req.body.userPassword, 8);
+    const newUserValues = {
+        user_name: req.body.userName,
+        user_email: req.body.userEmail,
+        user_password: req.body.userPassword,
+        user_first_name: req.body.userFirstName,
+        user_last_name: req.body.userLastName,
+    };
 
-    // TODO: get the default user auth state ID
-    // const defaultUserAuthState = 1;
+    User.query()
+        .insert(newUserValues)
+        .then(newUser => {
+            const token = newUser.getToken();
 
-    // const values = {
-    //     user_name: req.body.userName,
-    //     user_email: req.body.userEmail,
-    //     user_password: hashedPassword,
-    //     user_first_name: req.body.userFirstName,
-    //     user_last_name: req.body.userLastName,
-    //     user_authorization_state_id: UserAuthorizationRole.getDefaultAuthorizationState()
-    // };
-
-    // User.create(values)
-    //     .save()
-    //     .then(function(user) {
-    //         var token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-    //             expiresIn: 60 * 60 //expires in 1hr
-    //         });
-    
-    //         res.status(200).send({ auth: true, token });
-    //     })
-    //     .catch(function(err) {
-    //         if (err) return res.status(500).send('There was a problem registering the user.');
-    //     });
-
-    // MONGOOSE
-    // User.create({
-    //     name: req.body.name,
-    //     email: req.body.email,
-    //     password: hashedPassword
-    // },
-    // function (err, user) {
-    //     if (err) return res.status(500).send('There was a problem registering the user.');
-
-    //     var token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-    //         expiresIn: 60 * 60 //expires in 1hr
-    //     });
-
-    //     res.status(200).send({ auth: true, token });
-    // });
+            res.status(200).send({ authenticated: true, token });
+        })
+        .catch(err => {
+            if (err) return res.status(500).send('There was a problem registering the user.');
+        });
 });
 
 
 router.post('/login', (req, res) => {
+    User.query()
+        .first()
+        .where({ user_email: req.body.userEmail })
+        .then(user => {
+            if (!user) return res.status(404).send({ authenticated: false });
 
-    // User.where('user_name', req.body.userName)
-    //     .fetch()
-    //     .then(function(user) {
-    //         if (!user) return res.status(404).send('No user found.');
+            const passwordIsValid = user.verifyPassword(req.body.userPassword);
 
-    //         const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
-    
-    //         if (!passwordIsValid) return res.status(401).send({ auth: false, token: null });
-    
-    //         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-    //             expiresIn: 60 * 60 //expires in 1hr
-    //         });
-    
-    //         res.status(200).send({ auth: true, token: token });    
-    //     })
-    //     .catch(function(err) {
-    //         if (err) return res.status(500).send('Error on the server.');
-    //     });
+            if (!passwordIsValid) return res.status(401).send({ authenticated: false });
 
-    // User.findOne({ email: req.body.email }, (err, user) => {
-    //     if (err) return res.status(500).send('Error on the server.');
-    //     if (!user) return res.status(404).send('No user found.');
-    // 
-    //     const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
-    // 
-    //     if (!passwordIsValid) return res.status(401).send({ auth: false, token: null });
-    // 
-    //     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-    //         expiresIn: 60 * 60 //expires in 1hr
-    //     });
-    // 
-    //     res.status(200).send({ auth: true, token: token });
-    // });
+            return res.status(200).send({ authenticated: true, token: user.getToken() });
+
+        })
+        .catch(err => {
+            if (err) return res.status(500).send({ 
+                error: true, 
+                message: 'Error on the server.'
+            });
+        });
 });
 
 module.exports = router;

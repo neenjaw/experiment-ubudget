@@ -107,54 +107,50 @@ describe('User Route', function() {
                 });
         });
 
-        it('should return a null token when the password supplied to login() is wrong', function(done) {
+        it('should return false when the password supplied is wrong', function(done) {
             const email = 'jack@cia.gov';
             const password = 'wrong_password';
 
             User.query().first().where({ user_email: email })
                 .then(user => {
-                    return user.login(password)
+                    return user.verifyPassword(password)
                         .then(result => {
-                            expect(result.token).to.equal(null);
+                            expect(result).to.equal(false);
                             done();
                         });
                 });
         });
 
-        it('should return a valid token when the password supplied to login() is correct', function(done) {
+        it('should return true when the password supplied is correct', function(done) {
             const email = 'jack@cia.gov';
             const password = 'password';
 
             User.query().first().where({ user_email: email })
                 .then(user => {
-                    return user.login(password)
+                    return user.verifyPassword(password)
                         .then(result => {
-                            expect(result.token).to.not.equal(null);
+                            expect(result).to.equal(true);
                             done();
                         });
                 });
         });
 
-        it('should return a token with the userName, authorized flag, authorizedRole as the payload', function(done) {
+        it('getToken() should return a token with the userName, authorized flag, authorizedRole as the payload', function(done) {
             const email = 'jack@cia.gov';
             const password = 'password';
             
             User.query().first().where({ user_email: email })
                 .then(user => {
-                    return user.login(password)
-                        .then(result => {
-                            const token = result.token;
+                    const token = user.getToken();
 
-                            jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
-                                expect(err).to.not.be.ok; // jshint ignore:line
+                    jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
+                        expect(!err).to.be.true; // jshint ignore:line
 
-                                expect(decoded.id).to.equal('jackryan');
-                                expect(decoded.authorized).to.equal(true);
-                                expect(decoded.authorizedRole).to.equal('user');
+                        expect(decoded.id).to.equal('jackryan');
+                        expect(decoded.authorizedRole).to.equal('user');
                         
-                                done();
-                            });
-                        });
+                        done();
+                    });
                 });
         });
 

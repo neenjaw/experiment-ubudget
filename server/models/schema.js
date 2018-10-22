@@ -127,25 +127,17 @@ class User extends Password(BaseModel) {
         };
     }
 
-    login(password) {
-        return this.verifyPassword(password)
-            .then(passwordIsValid => {
-                if (!passwordIsValid) return { token: null };
+    getToken() {
+        const payload = { 
+            id: this.user_name, 
+            authorizedRole: this.user_authorization_role 
+        };
 
-                const token = jwt.sign(
-                    { 
-                        id: this.user_name, 
-                        authorized: true, 
-                        authorizedRole: this.user_authorization_role 
-                    }, 
-                    process.env.JWT_SECRET, 
-                    {
-                        expiresIn: 60 * 60 //expires in 1 hr
-                    });
-        
-                return { token };
-            })
-            .catch(err => { return { token: null, error: true, message: err}; });
+        const options = {
+            expiresIn: 60 * 60 //expires in 1 hr
+        };
+
+        return jwt.sign(payload, process.env.JWT_SECRET, options);
     }
 }
 
