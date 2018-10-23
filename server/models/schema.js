@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const generateSafeId = require('generate-safe-id');
 
 const Knex = require('knex');
 const connection = require('../../knexfile')[process.env.NODE_ENV];
@@ -71,6 +72,47 @@ class UserAuthorizationRole extends BaseModel {
     }
 }
 
+class UserActivation extends BaseModel {
+    static get tableName () {
+        return 'users_awaiting_activation';
+    }
+
+    static get idColumn() {
+        return 'user_name';
+    }
+
+    static get relationMappings () {
+        return {
+            activation: {
+                relation: Model.BelongsToOneRelation,
+                modelClass: User, 
+                join: {
+                    from: 'users_awaiting_activation.user_name',
+                    to: 'users.user_name'
+                }
+            }
+        };
+    }
+
+    static get jsonSchema () {
+        return {
+            type: 'object',
+            required: [
+                'user_name',
+                'user_activation_code'
+            ],
+            properties: {
+                user_name: {
+                    type: 'string'
+                },
+                user_activation_code: {
+                    type: 'string'
+                }
+            }
+        };
+    }
+}
+
 class User extends Password(BaseModel) {
     static get tableName () {
         return 'users';
@@ -80,14 +122,35 @@ class User extends Password(BaseModel) {
         return 'user_name';
     }
 
+    /* jshint ignore:start */
+    async $afterInsert(queryContext) {
+        await super.$afterInsert(queryContext);
+
+        if (!this.user_is_active) {
+            await UserActivation.query().insert({
+                user_name: this.user_name,
+                user_activation_code: generateSafeId()
+            });   
+        }
+    }
+    /* jshint ignore:end */
+
     static get relationMappings () {
         return {
-            owner: {
+            role: {
                 relation: Model.BelongsToOneRelation,
                 modelClass: UserAuthorizationRole,
                 join: {
                     from: 'users.users_authorization_role',
                     to: 'user_authorization_roles.role_name'
+                }
+            },
+            activation: {
+                relation: Model.HasManyRelation,
+                modelClass: UserActivation,
+                join: {
+                    from: 'users.user_name',
+                    to: 'users_awaiting_activation.user_name'
                 }
             }
         };
@@ -122,9 +185,17 @@ class User extends Password(BaseModel) {
                 user_authorization_role: {
                     type: 'string',
                     default: 'user'
+                },
+                user_is_active: {
+                    type: 'boolean',
+                    default: false
                 }
             }
         };
+    }
+
+    isActive() {
+        return this.user_is_active;
     }
 
     getToken() {
