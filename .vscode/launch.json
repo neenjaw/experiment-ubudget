@@ -22,8 +22,11 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
-            "program": "${workspaceFolder}/app.js"
+            "name": "Launch Server Program - Development",
+            "program": "${workspaceFolder}/server/app.js",
+            "env": { 
+                "NODE_ENV": "development"
+            }
         },
         {
             "type": "node",

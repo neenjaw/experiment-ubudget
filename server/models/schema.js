@@ -198,6 +198,16 @@ class User extends Password(BaseModel) {
         return this.user_is_active;
     }
 
+    getActivationCode() {
+        if (this.user_is_active) return null;
+
+        return UserActivation.query().first()
+            .where({user_name: this.user_name})
+            .then(activationRecord => {
+                return activationRecord.user_activation_code;
+            });
+    }
+
     getToken() {
         const payload = { 
             id: this.user_name, 
@@ -222,4 +232,10 @@ class Budget extends BaseModel {
     }
 }
 
-module.exports = { BaseModel, UserAuthorizationRole, User };
+module.exports = { 
+    BaseModel, 
+    UserAuthorizationRole, 
+    User, 
+    UserActivation, 
+    Budget 
+};

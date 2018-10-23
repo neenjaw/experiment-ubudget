@@ -7,7 +7,9 @@ const VerifyToken = require('./VerifyToken');
 const express  = require('express');
 const router = express.Router();
 
-const { User } = require('../../../models/schema');
+const { User, UserActivation } = require('../../../models/schema');
+
+const Mailer = require('../../../mailer');
 
 // ============================
 // Auth Routes
@@ -49,7 +51,18 @@ router.post('/register', (req, res) => {
         .insert(newUserValues)
         .then(newUser => {
             if (!newUser.isActive()) {
-                //
+                newUser.getActivationCode()
+                    .then(activationCode => {
+                        // TODO: eventually when there is a front end, change this to be a link.
+                        const emailData = {
+                            from: 'Tim from uBudget <tim@mg.neenjaw.com>',
+                            to: 'ubudget_user01@neenjaw.com',
+                            subject: 'Hello, please activate your account',
+                            text: `Go to this link to activate your account: ${activationCode}`
+                        };
+
+                        Mailer.sendMail(emailData);
+                    });
             }
 
             return res.status(200).send({ data: {
@@ -68,6 +81,40 @@ router.post('/register', (req, res) => {
         });
 });
 
+router.post('/activate', (req,res) => {
+    UserActivation
+        .query()
+        .first()
+        .where({ user_activation_code: req.body.activationCode })
+        .then(activationRecord => {
+            User.query()
+                .upsertGraph({
+                    user_name: activationRecord.user_name,
+                    user_is_active: true,
+                    activation: []
+                })
+                .then(updatedUser => {
+                    return res.status(200).send({
+                        data: {
+                            userId: updatedUser.user_name,
+                            userActive: updatedUser.isActive()
+                        }
+                    });
+                })
+                .catch(error => {
+                    return res.status(500).send({ error: [{
+                        title: 'Unable to activate account.',
+                        description: 'An error was encountered updating.'
+                    }]});
+                });
+        })
+        .catch(error => {
+            return res.status(500).send({ errors: [{
+                title: 'Unable to activate account.',
+                description: 'An error was encountered.'
+            }]});
+        });
+});
 
 router.post('/login', (req, res) => {
     User.query()
